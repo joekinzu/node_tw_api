@@ -11,21 +11,33 @@ var client = new Twitter({
  access_token_key: '2450273389-dn9lXWZ1hcsd7qFGlg2iSqsnSVUDbTDQ5QhrLOD',
  access_token_secret: 'U2bXYixYsgNwD5SteyrANVP3VTwarIppiEK07KItSgvyC'
 });
+
+client.get("search/tweets.json?q=keddr&count="+page, (error, tweets, response) => {
+    let j=0;
+    for(var i=0;i<10;i++){
+        j=i+offset;
+        if(j<page){
+        console.log('  ==  '+j+' tweet  ==  ');
+        console.log(tweets.statuses[j].text);}
+    }
+ tw=tweets});
+
+
 //paging
 var getPage =  (offset, limit, parentResolve) => {
     // get tweets using search api
-    client.get("search/tweets.json?q=keddr&count="+page, (error, tweets, response) => {
-        let j=0;
+    console.log('___________________________');
+    console.log("PAGE NUMBER - " + offset/10);
+    console.log('___________________________');
+    let j=0;
+    if(Object.keys(tw).length>0){
         for(var i=0;i<10;i++){
             j=i+offset;
             if(j<page){
             console.log('  ==  '+j+' tweet  ==  ');
-            console.log(tweets.statuses[j].text);}
+            console.log(tw.statuses[j].text);}
         }
-    });
-    console.log('___________________________');
-    console.log("PAGE NUMBER - " + offset/10);
-    console.log('___________________________');
+    }
     return new Promise( (pageResolve, pageReject) => {
         setTimeout( () => {
             offset += limit;
